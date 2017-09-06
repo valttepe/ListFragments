@@ -4,9 +4,12 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 
 /**
@@ -17,11 +20,26 @@ import android.view.ViewGroup;
  * Use the {@link PresidentsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PresidentsFragment extends Fragment {
+public class PresidentsFragment extends ListFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    President[] press = {
+            new President("Stahlberg, Kaarlo Juho", "1919-1925", "First one"),
+            new President("Relander, Lauri Kristian", "1925-1931", "Second one"),
+            new President("Svinhufvud, Pehr Evind", "1931-1937", "Third one"),
+            new President("Kallio, Kyosti", "1937-1940", "Fourth one"),
+            new President("Ryti, Risto Heikki", "1940-1944", "Fifth one"),
+            new President("Mannerheim, Carl Gustav Emil", "1944-1946", "Sixth one"),
+            new President("Paasikivi, Juho Kusti", "1946-1956", "Seventh one"),
+            new President("Kekkonen, Urho Kaleva", "1956-1982", "Eighth one"),
+            new President("Koivisto, Mauno Henrik", "1982-1994", "Ninth one"),
+            new President("Ahtisaari, Martti Oiva Kalevi", "1994-2000", "Tenth one"),
+            new President("Halonen, Tarja Kaarina", "2000-2012", "Eleventh one")
+
+    };
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -54,6 +72,8 @@ public class PresidentsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ArrayAdapter<President> adapter = new ArrayAdapter<President>(getActivity(), android.R.layout.simple_list_item_1, press);
+        setListAdapter(adapter);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -67,12 +87,26 @@ public class PresidentsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_presidents, container, false);
     }
 
+
+
     // TODO: Rename method, update argument and hook method into UI event
+    /*
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
+    */
+    public void onListItemClick(ListView l, View v, int position, long id){
+        if (mListener != null) {
+            Bundle args = new Bundle();
+            args.putString(ARG_PARAM1, press[position].toString());
+            args.putString(ARG_PARAM2, press[position].getDescription());
+            mListener.sendPosition(args);
+        }
+    }
+
+
 
     @Override
     public void onAttach(Context context) {

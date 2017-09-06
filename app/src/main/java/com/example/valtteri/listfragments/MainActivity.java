@@ -1,11 +1,14 @@
 package com.example.valtteri.listfragments;
 
 import android.net.Uri;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
-
+    DetailsFragment detail = new DetailsFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +35,17 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     @Override
     public void onFragmentInteraction(Uri uri){
 
-    };
+    }
+
+    @Override
+    public void sendPosition(Bundle bundle) {
+        Log.i("TEST", "Toimiii ehkä");
+        DetailsFragment newFrag = new DetailsFragment();
+        newFrag.setArguments(bundle);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, newFrag);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 
 }
